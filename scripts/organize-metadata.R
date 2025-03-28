@@ -11,12 +11,12 @@ setnames(dat, 'Short Name', 'Short_Name')
 setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
-dat[sgRNA=='sg1126', guide_effect := 'nt_control']
-dat[sgRNA=='sg1128', guide_effect := 'hnRNPA1_knockdown']
+dat[sgRNA=='sg1126', Contrast := 'nt_control']
+dat[sgRNA=='sg1128', Contrast := 'hnRNPA1_knockdown']
 hnRNPA1 <- copy(dat)
 
 
-HNRNPA1.files <- data.table('filename'=list.files('data/HNRNPA1-kd', pattern='*.fastq.gz'))
+HNRNPA1.files <- data.table('filename'=list.files('data/hnRNPA1-kd', pattern='*.fastq.gz'))
 HNRNPA1.files[, 'filestem' := tstrsplit(filename, split='_')[1]]
 HNRNPA1.files[, 'filename' := NULL]
 HNRNPA1.files <- unique(HNRNPA1.files)
@@ -34,8 +34,8 @@ setnames(dat, 'Short name', 'Short_Name')
 setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
-dat[sgRNA=='sg100', guide_effect := 'nt_control']
-dat[sgRNA=='sg200', guide_effect := 'TDP43_knockdown']
+dat[sgRNA=='sg100', Contrast := 'nt_control']
+dat[sgRNA=='sg200', Contrast := 'TDP43_knockdown']
 tdp43 <- copy(dat)
 
 TDP43.files <- data.table('filename'=list.files('data/TDP43-kd', pattern='*.fastq.gz'))
@@ -54,7 +54,7 @@ dat[, Replicate := Sample_ID]
 dat[, 'Long_Name' := paste0('WT ', Fraction, ' ', Replicate)]
 dat[, sgRNA := NA]
 dat[, Short_Name := NA]
-dat[, guide_effect := NA]
+dat[, Contrast := Fraction]
 wt <- copy(dat)
 wt[, filestem := paste0(tolower(Fraction), '-', Sample_ID)]
 setcolorder(wt, kept_order)
@@ -70,8 +70,8 @@ setnames(dat, 'Short Name', 'Short_Name')
 setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
-dat[sgRNA=='sg100', guide_effect := 'nt_control']
-dat[sgRNA=='sg1152', guide_effect := 'FUS_knockdown']
+dat[sgRNA=='sg100', Contrast := 'nt_control']
+dat[sgRNA=='sg1152', Contrast := 'FUS_knockdown']
 dat[, Sample_ID := Sample_ID - 24]
 fus <- copy(dat)
 

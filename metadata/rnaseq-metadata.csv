@@ -1,12 +1,12 @@
-Sample_ID,Experiment,Long_Name,Short_Name,sgRNA,Fraction,Replicate,guide_effect,filestem
-4,WT,WT Neurite 4,NA,NA,Neurite,4,NA,neurite-4
-5,WT,WT Neurite 5,NA,NA,Neurite,5,NA,neurite-5
-6,WT,WT Neurite 6,NA,NA,Neurite,6,NA,neurite-6
-7,WT,WT Neurite 7,NA,NA,Neurite,7,NA,neurite-7
-4,WT,WT Soma 4,NA,NA,Soma,4,NA,soma-4
-5,WT,WT Soma 5,NA,NA,Soma,5,NA,soma-5
-6,WT,WT Soma 6,NA,NA,Soma,6,NA,soma-6
-7,WT,WT Soma 7,NA,NA,Soma,7,NA,soma-7
+Sample_ID,Experiment,Long_Name,Short_Name,sgRNA,Fraction,Replicate,Contrast,filestem
+4,WT,WT Neurite 4,NA,NA,Neurite,4,Neurite,neurite-4
+5,WT,WT Neurite 5,NA,NA,Neurite,5,Neurite,neurite-5
+6,WT,WT Neurite 6,NA,NA,Neurite,6,Neurite,neurite-6
+7,WT,WT Neurite 7,NA,NA,Neurite,7,Neurite,neurite-7
+4,WT,WT Soma 4,NA,NA,Soma,4,Soma,soma-4
+5,WT,WT Soma 5,NA,NA,Soma,5,Soma,soma-5
+6,WT,WT Soma 6,NA,NA,Soma,6,Soma,soma-6
+7,WT,WT Soma 7,NA,NA,Soma,7,Soma,soma-7
 1,hnRNPA1,sg1126 Neurite 1,6N1,sg1126,Neurite,1,nt_control,VR-8147-1
 2,hnRNPA1,sg1126 Neurite 2,6N2,sg1126,Neurite,2,nt_control,VR-8147-2
 3,hnRNPA1,sg1126 Neurite 3,6N3,sg1126,Neurite,3,nt_control,VR-8147-3
