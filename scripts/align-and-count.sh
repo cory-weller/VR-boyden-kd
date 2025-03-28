@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #SBATCH --mem 100G
-#SBATCH --time 6:00:00
+#SBATCH --time 3:59:00
 #SBATCH --nodes 1
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task 16
 #SBATCH --gres=lscratch:400
-#SBATCH --partition norm
+#SBATCH --partition quick,norm
 
-cd /data/CARD_ARDIS/users/wellerca/VR-kolf-boyden-rna
+cd /data/CARD_ARDIS/users/wellerca/VR-boyden-kd
 REF='/fdb/STAR_current/GENCODE/Gencode_human/release_45/genes-100'
 REF=$(realpath $REF)
 ANNO=$(realpath gencode.v45.primary_assembly.annotation.gtf)
@@ -28,8 +28,50 @@ mkdir -p $TMPDIR && cd $TMPDIR
 cat ${READ1s} > R1.fastq.gz
 cat ${READ2s} > R2.fastq.gz
 
-echo "After concat:"
-ls
+## Deduplication with fastp
+# https://github.com/OpenGene/fastp
+
+module load fastp/0.24
+
+if [[ ${TREATMENT} == 'WT' ]]; then
+    # Deduplicate based on full sequence
+    fastp \
+        --disable_adapter_trimming \
+        -i  R1.fastq.gz \
+        -o R1.dedup.untrimmed.fastq.gz \
+        -I R2.fastq.gz \
+        -O R2.dedup.untrimmed.fastq.gz \
+        --dedup
+else
+    # Collapse reads based on UMI
+    fastp \
+        --disable_adapter_trimming \
+        -i R1.fastq.gz \
+        -o R1.dedup.untrimmed.fastq.gz \
+        -I R2.fastq.gz \
+        -O R2.dedup.untrimmed.fastq.gz \
+        -U \
+        --umi_loc=read2 \
+        --umi_len=8
+fi
+
+# Clean up raw reads
+rm R1.fastq.gz
+rm R2.fastq.gz
+
+# Trim first 6 nt from front of R2
+fastp \
+    --disable_adapter_trimming \
+    -i R1.dedup.untrimmed.fastq.gz \
+    -o R1.final.fastq.gz \
+    -I R2.dedup.untrimmed.fastq.gz \
+    -O R2.final.fastq.gz \
+    --trim_front2 6
+
+# Clean up untrimmed reads
+
+rm R1.dedup.untrimmed.fastq.gz
+rm R2.dedup.untrimmed.fastq.gz
 
 module load STAR/2.7.11b
 
@@ -38,7 +80,7 @@ STAR \
     --genomeDir $REF \
     --sjdbOverhang 100 \
     --quantMode GeneCounts \
-    --readFilesIn R1.fastq.gz R2.fastq.gz \
+    --readFilesIn R1.final.fastq.gz R2.final.fastq.gz \
     --readFilesCommand zcat \
     --outSAMtype BAM SortedByCoordinate \
     --outFileNamePrefix "${SAMPLEID}_"
