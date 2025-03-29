@@ -12,7 +12,7 @@ setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
 dat[sgRNA=='sg1126', Contrast := 'nt_control']
-dat[sgRNA=='sg1128', Contrast := 'hnRNPA1_knockdown']
+dat[sgRNA=='sg1128', Contrast := 'knockdown']
 hnRNPA1 <- copy(dat)
 
 
@@ -35,7 +35,7 @@ setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
 dat[sgRNA=='sg100', Contrast := 'nt_control']
-dat[sgRNA=='sg200', Contrast := 'TDP43_knockdown']
+dat[sgRNA=='sg200', Contrast := 'knockdown']
 tdp43 <- copy(dat)
 
 TDP43.files <- data.table('filename'=list.files('data/TDP43-kd', pattern='*.fastq.gz'))
@@ -71,7 +71,7 @@ setnames(dat, 'Sample ID', 'Sample_ID')
 dat[, c('sgRNA','Fraction','Replicate') := tstrsplit(Long_Name, split=' ')]
 dat[, Replicate := as.numeric(Replicate)]
 dat[sgRNA=='sg100', Contrast := 'nt_control']
-dat[sgRNA=='sg1152', Contrast := 'FUS_knockdown']
+dat[sgRNA=='sg1152', Contrast := 'knockdown']
 dat[, Sample_ID := Sample_ID - 24]
 fus <- copy(dat)
 
@@ -86,4 +86,12 @@ fus <- merge(fus, FUS.files, by='Sample_ID')
 
 
 metadata <- rbindlist(list(wt, hnRNPA1, tdp43, fus))
+metadata[, Sample := filestem ]
+
+metadata[, Sample := gsub('VR-8153-', 'FUS-', Sample)]
+metadata[, Sample := gsub('JR-7961-', 'TDP43-', Sample)]
+metadata[, Sample := gsub('VR-8147-', 'hnRNPA1-', Sample)]
+metadata[, Sample := gsub('-', '.', Sample)]
+
+
 fwrite(metadata, file='metadata/rnaseq-metadata.csv', quote=F, row.names=F, col.names=T, sep=',', na='NA')

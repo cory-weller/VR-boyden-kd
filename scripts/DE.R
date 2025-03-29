@@ -79,6 +79,7 @@ getContrast <- function(counts, metadata, experiment, fractions, contrast_baseli
     efit <- eBayes(vfit)
     output <- as.data.table(topTable(efit, sort.by = "P", n = Inf, adjust='BH'), keep.rownames=TRUE)    #output full table
     setnames(output, 'rn', 'Geneid')
+    
     output[, Significance := 'Not Significant']
     output[adj.P.Val < min_pval & logFC > min_fc, Significance := 'Up']
     output[adj.P.Val < min_pval & logFC < -min_fc, Significance := 'Down']
@@ -87,12 +88,17 @@ getContrast <- function(counts, metadata, experiment, fractions, contrast_baseli
     output <- merge(output, annotations, by.x='Geneid', by.y='ENSEMBL', all.x=T)
     output[is.na(SYMBOL), SYMBOL := Geneid]
     output[SYMBOL %in% manuallabel, 'lbl' := SYMBOL]
-    output[logFC > 0, up_rank := frank(adj.P.Val, ties.method='first')]
-    output[logFC < 0, down_rank := frank(adj.P.Val, ties.method='first')]
+    output[adj.P.Val < min_pval & logFC > 0, up_rank := frank(-logFC, ties.method='first')]
+    output[adj.P.Val < min_pval & logFC < 0, down_rank := frank(logFC, ties.method='first')]
     output[up_rank <= labelup, 'lbl' := SYMBOL]
     output[down_rank <= labeldown, 'lbl' := SYMBOL]
-    output[Significance == 'Not Significance', 'lbl' := NA]
+    output[Significance == 'Not Significant', 'lbl' := NA]
     
+    if(experiment == 'WT') {
+        fwrite(output, file='DE/WT-detected.tsv', quote=F, row.names=F, col.names=T, sep='\t')
+    } else {
+        fwrite(output, file=paste0('DE/', experiment, '-', fractions, '-detected.tsv'), quote=F, row.names=F, col.names=T, sep='\t')
+    }
     
     if(experiment == 'WT') {
         # if WT
@@ -107,9 +113,19 @@ getContrast <- function(counts, metadata, experiment, fractions, contrast_baseli
     }
     
     output[Significance == 'Not Significant', clr := 'gray' ]
-
-    
     setnames(output, 'logFC', 'log2FC')
+    
+    # Save lists of up or down genes
+    sig_out <- copy(output[Significance %in% c('Up','Down')])[order(log2FC)]
+    sig_out[, 'lbl' := NULL]
+    sig_out[, 't' := NULL]
+    sig_out[, 'P.Value' := NULL]
+    sig_out[, 'B' := NULL]
+    sig_out[, 'clr' := NULL]
+    setnames(sig_out, 'AveExpr', 'Log2MeanExpression')
+    
+
+
     if(experiment == 'WT') {
     g.volcano <- ggplot(data=output, aes(x=log2FC, y=-1*log10(adj.P.Val), color=clr)) +
         geom_point() +

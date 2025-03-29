@@ -5,3 +5,6 @@ logs/*
 *.png
 *.pdf
 old/
+*Neurite.csv
+*Soma.csv
+*knockdown.csv
