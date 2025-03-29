@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+ls#!/usr/bin/env Rscript
 
 library(data.table)
 
@@ -94,4 +94,4 @@ metadata[, Sample := gsub('VR-8147-', 'hnRNPA1-', Sample)]
 metadata[, Sample := gsub('-', '.', Sample)]
 
 
-fwrite(metadata, file='metadata/rnaseq-metadata.csv', quote=F, row.names=F, col.names=T, sep=',', na='NA')
+fwrite(metadata, file='metadata/rna-metadata.csv', quote=F, row.names=F, col.names=T, sep=',', na='NA')

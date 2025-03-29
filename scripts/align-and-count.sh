@@ -15,11 +15,11 @@ N=${SLURM_ARRAY_TASK_ID}
 TREATMENT=$(sed -n ${N}p samples.txt | cut -f 1)
 SAMPLEID=$(sed -n ${N}p samples.txt | cut -f 2)
 OUTDIR=$(realpath .)
-OUTDIR="${OUTDIR}/processing/$TREATMENT/"
+OUTDIR="${OUTDIR}/RNA_alignment/$TREATMENT/"
 mkdir -p $OUTDIR
 
-READ1s=$(find -L data/$TREATMENT -type f -regex ".*/${SAMPLEID}_S[0-9]+.*_R1.*.fastq.gz" -exec realpath {} \;)
-READ2s=$(find -L data/$TREATMENT -type f -regex ".*/${SAMPLEID}_S[0-9]+.*_R2.*.fastq.gz" -exec realpath {} \;)
+READ1s=$(find -L RNA_data/$TREATMENT -type f -regex ".*/${SAMPLEID}_S[0-9]+.*_R1.*.fastq.gz" -exec realpath {} \;)
+READ2s=$(find -L RNA_data/$TREATMENT -type f -regex ".*/${SAMPLEID}_S[0-9]+.*_R2.*.fastq.gz" -exec realpath {} \;)
 
 TMPDIR="/lscratch/$SLURM_JOB_ID"
 mkdir -p $TMPDIR && cd $TMPDIR

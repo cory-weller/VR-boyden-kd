@@ -23,7 +23,7 @@ excluded_samples <- 'TDP43.20'   # Exclude due to PCA outlier
 # Import Count Data
 if (! file.exists('DE/raw_counts.tsv')) {
     # Get list of all featurecounts files
-    files <- list.files('processing',
+    files <- list.files('RNA_alignment',
                     recursive=TRUE, 
                     pattern='*.featurecounts.txt$', 
                     full.names=TRUE
@@ -57,7 +57,7 @@ if (! file.exists('DE/raw_counts.tsv')) {
 }
 
 # Import metadata
-metaData <- fread('metadata/rnaseq-metadata.csv')
+metaData <- fread('metadata/rna-metadata.csv')
 
 # Drop excluded samples
 countData[, (excluded_samples) := NULL]

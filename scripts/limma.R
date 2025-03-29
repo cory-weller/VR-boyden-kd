@@ -8,9 +8,9 @@ library(ggrepel)
 library(ggthemes)
 
 # Import Count Data
-if (! file.exists('DE/raw_counts.tsv')) {
+if (! file.exists('RNA_DA/raw_counts.tsv')) {
     # Get list of all featurecounts files
-    files <- list.files('processing',
+    files <- list.files('RNA_alignment',
                     recursive=TRUE, 
                     pattern='*.featurecounts.txt$', 
                     full.names=TRUE
@@ -34,10 +34,10 @@ if (! file.exists('DE/raw_counts.tsv')) {
     dir.create('DE')
     
     # Save merged counts as tabular output
-    fwrite(countData, file='DE/raw_counts.tsv', sep='\t', quote=F, row.names=F, col.names=T)
+    fwrite(countData, file='RNA_DA/raw_counts.tsv', sep='\t', quote=F, row.names=F, col.names=T)
 } else {
     # Read pre-saved counts data
-    countData <- fread("DE/raw_counts.tsv")
+    countData <- fread("RNA_DA/raw_counts.tsv")
 }
 
 # Import metadata
@@ -95,9 +95,9 @@ getContrast <- function(counts, metadata, experiment, fractions, contrast_baseli
     output[Significance == 'Not Significant', 'lbl' := NA]
     
     if(experiment == 'WT') {
-        fwrite(output, file='DE/WT-detected.tsv', quote=F, row.names=F, col.names=T, sep='\t')
+        fwrite(output, file='RNA_DA/WT-detected.tsv', quote=F, row.names=F, col.names=T, sep='\t')
     } else {
-        fwrite(output, file=paste0('DE/', experiment, '-', fractions, '-detected.tsv'), quote=F, row.names=F, col.names=T, sep='\t')
+        fwrite(output, file=paste0('RNA_DA/', experiment, '-', fractions, '-detected.tsv'), quote=F, row.names=F, col.names=T, sep='\t')
     }
     
     if(experiment == 'WT') {
@@ -158,15 +158,15 @@ getContrast <- function(counts, metadata, experiment, fractions, contrast_baseli
         ylab('log2(Fold Change)')
     
     if(experiment == 'WT') {
-        ggsave(g.volcano, file=paste0('DE/', experiment,'-volcano.png'), width=22, height=22, units='cm')
-        ggsave(g.volcano, file=paste0('DE/', experiment,'-volcano.pdf'), width=22, height=22, units='cm')
-        ggsave(g.MA, file=paste0('DE/', experiment,'-MA.png'), width=22, height=22, units='cm')
-        ggsave(g.MA, file=paste0('DE/', experiment,'-MA.pdf'), width=22, height=22, units='cm')
+        ggsave(g.volcano, file=paste0('RNA_DA/', experiment,'-volcano.png'), width=22, height=22, units='cm')
+        ggsave(g.volcano, file=paste0('RNA_DA/', experiment,'-volcano.pdf'), width=22, height=22, units='cm')
+        ggsave(g.MA, file=paste0('RNA_DA/', experiment,'-MA.png'), width=22, height=22, units='cm')
+        ggsave(g.MA, file=paste0('RNA_DA/', experiment,'-MA.pdf'), width=22, height=22, units='cm')
     } else {
-        ggsave(g.volcano, file=paste0('DE/', experiment,'-', fractions, '-volcano.png'), width=22, height=22, units='cm')
-        ggsave(g.volcano, file=paste0('DE/', experiment,'-', fractions, '-volcano.pdf'), width=22, height=22, units='cm')
-        ggsave(g.MA, file=paste0('DE/', experiment,'-', fractions, '-MA.png'), width=22, height=22, units='cm')
-        ggsave(g.MA, file=paste0('DE/', experiment,'-', fractions, '-MA.pdf'), width=22, height=22, units='cm')
+        ggsave(g.volcano, file=paste0('RNA_DA/', experiment,'-', fractions, '-volcano.png'), width=22, height=22, units='cm')
+        ggsave(g.volcano, file=paste0('RNA_DA/', experiment,'-', fractions, '-volcano.pdf'), width=22, height=22, units='cm')
+        ggsave(g.MA, file=paste0('RNA_DA/', experiment,'-', fractions, '-MA.png'), width=22, height=22, units='cm')
+        ggsave(g.MA, file=paste0('RNA_DA/', experiment,'-', fractions, '-MA.pdf'), width=22, height=22, units='cm')
     }
 
     return(list(output[], g.volcano, g.MA))

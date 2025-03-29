@@ -1,5 +1,5 @@
-data/*
-processing/*
+RNA_data/*
+RNA_alignment/*
 gencode.v45.primary_assembly.annotation.gtf
 logs/*
 *.png
@@ -8,3 +8,5 @@ old/
 *Neurite.csv
 *Soma.csv
 *knockdown.csv
+scripts/elizabeth
+RNA_DE/raw_counts.tsv
