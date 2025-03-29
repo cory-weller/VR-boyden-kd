@@ -17,3 +17,15 @@ Rscript scripts/DESeq2.R
 ```
 
 Note: one sample `TDP-43.20` was excluded due to separation on PC1 (99% var) from all other samples
+
+## Alternative Poly-Adenylation
+
+```R
+# REPAC
+Rscript scripts/REPAC.R
+
+# APAlyzer
+
+
+
+```
