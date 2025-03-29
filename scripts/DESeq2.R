@@ -16,7 +16,9 @@ library(data.table)
 library(foreach)
 library(ggrepel)
 library(ggthemes)
-library(DE) #for normalizing counts
+library(DESeq2) #for normalizing counts
+
+excluded_samples <- 'TDP43.20'   # Exclude due to PCA outlier
 
 # Import Count Data
 if (! file.exists('DE/raw_counts.tsv')) {
@@ -32,6 +34,9 @@ if (! file.exists('DE/raw_counts.tsv')) {
     # Merge into single table
     countData <- Reduce(function(...) merge(..., all = TRUE, by='Geneid'), o)
     
+    # Exclude PCA outlier TDP43.20
+    
+    
     # Remove '.dedup.bam' from column names
     setnames(countData, gsub('.dedup.bam', '', colnames(countData)))
     
@@ -41,7 +46,7 @@ if (! file.exists('DE/raw_counts.tsv')) {
     setnames(countData, gsub('VR-8147-', 'hnRNPA1-', colnames(countData)))
     setnames(countData, gsub('-', '.', colnames(countData)))
     
-    # Ensure dat directory exists
+    # Ensure directories exists
     dir.create("DE")
     
     # Save merged counts as tabular dat
@@ -54,6 +59,9 @@ if (! file.exists('DE/raw_counts.tsv')) {
 # Import metadata
 metaData <- fread('metadata/rnaseq-metadata.csv')
 
+# Drop excluded samples
+countData[, (excluded_samples) := NULL]
+metaData <- metaData[! Sample %in% excluded_samples]
 
 # get annotations
 ANNO <- fread('https://gist.github.com/cory-weller/566a8984b713fc4626ec423913fdab43/raw/90e5eeaace6ee4d6900a404cbd50c952015b40dc/gene_table_GRCh38-2020-A.tsv')
@@ -98,7 +106,23 @@ get_DE_table <- function(countData, metaData, experimentName, fraction, contrast
     
     # Run DESeq
     dds <- DESeq(dds)
+    vsd <- vst(dds)
+    g.pca <- DESeq2::plotPCA(vsd, intgroup = c('Contrast'))
+    g.pca <- g.pca + theme_few() + theme(aspect.ratio=1)
     
+    if(experimentName == 'WT') {
+        base_name <- paste0('PCA/', experimentName, '-', paste0(fraction, collapse='-'))
+        g.pca <- g.pca + labs(title=experimentName)
+    } else {
+        base_name <- paste0('PCA/', experimentName, '-', fraction)
+        g.pca <- g.pca + labs(title=paste0(experimentName, ' ', fraction))
+    }
+    dir.create("PCA")
+
+    ggsave(g.pca, file=paste0(base_name, '-PCA.png'), width=15, height=15, units='cm')
+    ggsave(g.pca, file=paste0(base_name, '-PCA.pdf'), width=15, height=15, units='cm')
+
+
     # Run log(foldChange) shrinkage
     coef_name <- names(coef(dds)[1,])[2]
     res <- lfcShrink(dds, coef=coef_name, type="apeglm")

@@ -1,15 +1,19 @@
 # VR-kolf-boyden-rna
 
 
-## 
+# Preprocessing
+Run UMI deduplication, mark optical duplicates, align and count features
 
-Genes to label in knockdowns
-`hnRNPA1`: `/data/CARD_ARDIS/2023_07_21_veronica_analysis/rnaseq/data/majiq_hnrnpa1_kd_whole_cell.csv`
-`TDP43`: `/data/CARD_ARDIS/2023_07_21_veronica_analysis/rnaseq/data/majiq_tdp_kd_whole_cell.csv`
+```bash
+sbatch --array=1-76 scripts/align-and-counts.sh 
+```
 
-Genes to label in WT
-'',
- '',
- '',
- ''
- 
+
+
+```bash
+ml R/4.3
+ # Concatenate raw counts table, normalize with DESeq2, PCA analysis, volcano and MA plots
+Rscript scripts/DESeq2.R
+```
+
+One sample `TDP-43.20` was excluded due to separation on PC1 (99% var) from all other samples
