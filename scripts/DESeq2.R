@@ -16,7 +16,7 @@ library(data.table)
 library(foreach)
 library(ggrepel)
 library(ggthemes)
-library(DESeq2) #for normalizing counts
+library(DE) #for normalizing counts
 
 # Import Count Data
 if (! file.exists('DE/raw_counts.tsv')) {
@@ -42,10 +42,10 @@ if (! file.exists('DE/raw_counts.tsv')) {
     setnames(countData, gsub('-', '.', colnames(countData)))
     
     # Ensure dat directory exists
-    dir.create("DESeq2")
+    dir.create("DE")
     
     # Save merged counts as tabular dat
-    fwrite(countData, file='DESeq2/raw_counts.tsv', sep='\t', quote=F, row.names=F, col.names=T)
+    fwrite(countData, file='DE/raw_counts.tsv', sep='\t', quote=F, row.names=F, col.names=T)
 } else {
     # Read pre-saved counts data
     countData <- fread("DE/raw_counts.tsv")
@@ -135,23 +135,28 @@ plot_DE <- function(DT, down_color, up_color, NS_color='gray', min_fc=1, p_thres
     # Modify colors
     
     # Add manually labeled genes
-    if(! identical(label_ENSG, NA)) {
-        DT[]
-    }
     
-    # If WT, add text labels
+    
+    # If WT, add text labels to manually labeled gens
     if(length(label_ENSG)==4) {
         DT[Geneid %in% label_ENSG, 'text_label' := SYMBOL]
     }
-    DT[Significance == 'Up', plot_color := up_color]
-    DT[Significance == 'Down', plot_color := down_color]
-    DT[Geneid %in% label_ENSG, 'plot_fill' := 'yellow']
-    DT[is.na(plot_color), plot_color := NS_color]
-    DT[is.na(plot_fill), plot_fill := plot_color]
     
-    # Top layer
-    DT[plot_color != NS_color | plot_fill != NS_color, top_layer := TRUE]
-    DT[is.na(top_layer), top_layer := FALSE]
+    # Set point colors for significant up/down, on middle layer
+    DT[Significance == 'Up', 'plot_color' := up_color]
+    DT[Significance == 'Up', 'plot_layer' := 'middle']
+    DT[Significance == 'Down', 'plot_color' := down_color]
+    DT[Significance == 'Down', 'plot_layer' := 'middle']
+
+    # Override significance labeling for manually labeled genes, on top layer
+    DT[Geneid %in% label_ENSG, 'plot_color' := manual_color]    
+    DT[Geneid %in% label_ENSG, 'plot_layer' := 'top']    # Overrides significance labeling
+    
+    #  Remaining (insignificant) points are NS_color, on bottom layer
+    DT[is.na(plot_color), plot_color := NS_color]
+    DT[plot_color == NS_color, 'plot_layer' := 'bottom']
+    if(any(is.na(DT$plot_layer))) { cat('NAs in plot_layer !!\n'); stop() }
+    if(any(is.na(DT$plot_color))) { cat('NAs in plot_color !!\n'); stop() }
     
     
     # Add top 10 up and 10 down
@@ -161,9 +166,10 @@ plot_DE <- function(DT, down_color, up_color, NS_color='gray', min_fc=1, p_thres
     
     # Manually label WT genes
     
-    g.volcano <- ggplot(DT, aes(x=log2FoldChange, y=-1*log10(padj), color=plot_color, fill=plot_fill)) +
-        geom_point(shape=21, alpha=0.5) +
-        geom_point(data=DT[top_layer==TRUE], shape=21, alpha=0.5) +
+    g.volcano <- ggplot(DT, aes(x=log2FoldChange, y=-1*log10(padj), color=plot_color, fill=plot_color)) +
+        geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8) +
+        geom_point(data=DT[plot_layer=='middle'], shape=21, alpha=0.8) +
+        geom_point(data=DT[plot_layer=='top'], shape=21, alpha=0.8) +
         scale_color_identity() +
         scale_fill_identity() +
         geom_label_repel(aes(label=text_label), max.overlaps=9999, min.segment.length=0, segment.color='black', color='black', fill='white') +
@@ -173,10 +179,10 @@ plot_DE <- function(DT, down_color, up_color, NS_color='gray', min_fc=1, p_thres
         xlab('log2(FoldChange)') +
         ylab('log10(P)')
     
-    
-    g.MA <- ggplot(DT, aes(x=log2(baseMean), y=log2FoldChange, color=plot_color, fill=plot_fill)) +
-        geom_point(shape=21, alpha=0.5) +
-        geom_point(data=DT[top_layer==TRUE], shape=21, alpha=0.5) +
+    g.MA <- ggplot(DT, aes(x=log2(baseMean), y=log2FoldChange, color=plot_color, fill=plot_color)) +
+        geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8) +
+        geom_point(data=DT[plot_layer=='middle'], shape=21, alpha=0.8) +
+        geom_point(data=DT[plot_layer=='top'], shape=21, alpha=0.8) +
         scale_color_identity() +
         scale_fill_identity() +
         geom_label_repel(aes(label=text_label), max.overlaps=9999, min.segment.length=0, segment.color='black', color='black', fill='white') +
@@ -193,13 +199,14 @@ soma_color <- '#00a347'         # Purple
 neurite_down_color <- '#6c1760' # Dark green
 soma_down_color <- '#003f1e'    # Dark purple
 not_signif_color <- '#c4c4c4'   # Gray
+manual_color <- '#2e47ff'      # Blue
 
 save_outputs <- function(O, EXPERIMENT, FRACTION, CONTRAST) {
     # Get file stem for all output
     if(EXPERIMENT == 'WT') {
-        base_name <- paste0('DESeq2/', EXPERIMENT, '-', paste0(FRACTION, collapse='-'))
+        base_name <- paste0('DE/', EXPERIMENT, '-', paste0(FRACTION, collapse='-'))
     } else {
-        base_name <- paste0('DESeq2/', EXPERIMENT, '-', FRACTION)
+        base_name <- paste0('DE/', EXPERIMENT, '-', FRACTION)
     }
     # Save DE table
     fwrite(O$dt, file=paste0(base_name, '.csv'), quote=F, row.names=F, col.names=T, sep=',')
