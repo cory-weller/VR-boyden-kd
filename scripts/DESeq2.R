@@ -17,6 +17,7 @@ library(foreach)
 library(ggrepel)
 library(ggthemes)
 library(DESeq2) #for normalizing counts
+library(ggrastr)
 
 excluded_samples <- 'TDP43.20'   # Exclude due to PCA outlier
 
@@ -129,9 +130,11 @@ plot_PC <- function(countData, metaData, experimentName, fraction, contrast) {
     pca[Fraction=='Soma', Fraction := 'Whole cell']
     pca[ Contrast == 'knockdown', shape_grp := paste0(Fraction, ' KD')]
     pca[ Contrast == 'nt_control', shape_grp := paste0(Fraction, ' NT')]
-    
-    shape_mapping <- c('Neurite NT' = 21, 'Neurite KD' = 16, 'Whole cell NT'=22, 'Whole cell KD'=15)
+    pca[ Contrast == 'Neurite', shape_grp := 'Neurite']
+    pca[ Contrast == 'Soma', shape_grp := 'Whole cell']
+    shape_mapping <- c('Neurite NT' = 21, 'Neurite KD' = 16, 'Whole cell NT'=22, 'Whole cell KD'=15, 'Whole cell'=15, 'Neurite'=16)
     color_mapping <- c('Neurite'=neurite_color, 'Whole cell'=soma_color)
+
     g <- ggplot(data=pca, aes(x=PC1, y=PC2, shape=shape_grp, color=Fraction)) +
         geom_point(size=4) +
         scale_shape_manual(values=shape_mapping) +
@@ -181,21 +184,24 @@ get_DE_table <- function(countData, metaData, experimentName, fraction, contrast
     # Run DESeq
     dds <- DESeq(dds)
     vsd <- vst(dds)
-    g.pca <- DESeq2::plotPCA(vsd, intgroup = c('Contrast'))
-    g.pca <- g.pca + theme_few() + theme(aspect.ratio=1)
     
-    if(experimentName == 'WT') {
-        base_name <- paste0('PCA/', experimentName, '-', paste0(fraction, collapse='-'))
-        g.pca <- g.pca + labs(title=experimentName)
-    } else {
-        base_name <- paste0('PCA/', experimentName, '-', fraction)
-        g.pca <- g.pca + labs(title=paste0(experimentName, ' ', fraction))
+    # Disable PCA here, calculate as whole group in plot_PC instead
+    if(FALSE) {
+        g.pca <- DESeq2::plotPCA(vsd, intgroup = c('Contrast'))
+        g.pca <- g.pca + theme_few() + theme(aspect.ratio=1)
+        
+        if(experimentName == 'WT') {
+            base_name <- paste0('PCA/', experimentName, '-', paste0(fraction, collapse='-'))
+            g.pca <- g.pca + labs(title=experimentName)
+        } else {
+            base_name <- paste0('PCA/', experimentName, '-', fraction)
+            g.pca <- g.pca + labs(title=paste0(experimentName, ' ', fraction))
+        }
+        dir.create("PCA")
+
+        ggsave(g.pca, file=paste0(base_name, '-PCA.png'), width=15, height=15, units='cm')
+        ggsave(g.pca, file=paste0(base_name, '-PCA.pdf'), width=15, height=15, units='cm')
     }
-    dir.create("PCA")
-
-    ggsave(g.pca, file=paste0(base_name, '-PCA.png'), width=15, height=15, units='cm')
-    ggsave(g.pca, file=paste0(base_name, '-PCA.pdf'), width=15, height=15, units='cm')
-
 
     # Run log(foldChange) shrinkage
     coef_name <- names(coef(dds)[1,])[2]
@@ -267,7 +273,7 @@ plot_DE <- function(DT, down_color, up_color, NS_color='gray', min_fc=1, p_thres
     # Manually label WT genes
     
     g.volcano <- ggplot(DT, aes(x=log2FoldChange, y=-1*log10(padj), color=plot_color, fill=plot_color)) +
-        geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8) +
+        rasterize(geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8), dpi=300) +
         geom_point(data=DT[plot_layer=='middle'], shape=21, alpha=0.8) +
         geom_point(data=DT[plot_layer=='top'], shape=21, alpha=0.8) +
         scale_color_identity() +
@@ -280,7 +286,7 @@ plot_DE <- function(DT, down_color, up_color, NS_color='gray', min_fc=1, p_thres
         ylab('log10(P)')
     
     g.MA <- ggplot(DT, aes(x=log2(baseMean), y=log2FoldChange, color=plot_color, fill=plot_color)) +
-        geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8) +
+        rasterize(geom_point(data=DT[plot_layer=='bottom'], shape=21, alpha=0.8), dpi=300) +
         geom_point(data=DT[plot_layer=='middle'], shape=21, alpha=0.8) +
         geom_point(data=DT[plot_layer=='top'], shape=21, alpha=0.8) +
         scale_color_identity() +
@@ -320,6 +326,15 @@ save_outputs <- function(O, EXPERIMENT, FRACTION, CONTRAST) {
 ####################################################################################################
 # WT, Neurite vs Soma
 ####################################################################################################
+
+# WT ALL PCA
+
+EXPERIMENT <- 'WT'
+FRACTION <- c('Soma','Neurite')
+CONTRAST <- c('Soma','Neurite')
+plot_PC(countData, metaData, experimentName=EXPERIMENT, fraction=FRACTION, contrast=CONTRAST)
+
+
 EXPERIMENT <- 'WT'
 FRACTION <- c('Soma','Neurite')
 CONTRAST <- c('Soma','Neurite')
@@ -373,20 +388,21 @@ plot_PC(countData, metaData, experimentName=EXPERIMENT, fraction=FRACTION, contr
 majiq.hnrnpa1 <- fread('/data/CARD_ARDIS/2023_07_21_veronica_analysis/rnaseq/data/majiq_hnrnpa1_kd_whole_cell.csv', select='gene_id')$gene_id
 majiq.hnrnpa1 <- gsub('\\..+$','', majiq.hnrnpa1)
 majiq.hnrnpa1 <- unique(majiq.hnrnpa1)
-MANUALLABEL <- majiq.hnrnpa1
+COLOR <- majiq.hnrnpa1
+LABEL <- c('ENSG00000135486')
 
 EXPERIMENT <- 'hnRNPA1'
 FRACTION <- c('Soma')
 CONTRAST <- c('nt_control','knockdown')
 DEstats <- get_DE_table(countData, metaData, experimentName=EXPERIMENT, fraction=FRACTION, contrast=CONTRAST)
-o <- plot_DE(DEstats, up_color=soma_color, down_color=soma_down_color, NS_color=not_signif_color, label_ENSG=MANUALLABEL)
+o <- plot_DE(DEstats, up_color=soma_color, down_color=soma_down_color, NS_color=not_signif_color, color_ENSG=COLOR, label_ENSG=LABEL)
 save_outputs(o, EXPERIMENT, FRACTION, CONTRAST)
 
 EXPERIMENT <- 'hnRNPA1'
 FRACTION <- c('Neurite')
 CONTRAST <- c('nt_control','knockdown')
 DEstats <- get_DE_table(countData, metaData, experimentName=EXPERIMENT, fraction=FRACTION, contrast=CONTRAST)
-o <- plot_DE(DEstats, up_color=neurite_color, down_color=neurite_down_color, NS_color=not_signif_color, label_ENSG=MANUALLABEL)
+o <- plot_DE(DEstats, up_color=neurite_color, down_color=neurite_down_color, NS_color=not_signif_color, color_ENSG=COLOR, label_ENSG=LABEL)
 save_outputs(o, EXPERIMENT, FRACTION, CONTRAST)
 
 

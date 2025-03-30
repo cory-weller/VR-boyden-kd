@@ -20,12 +20,10 @@ Note: one sample `TDP-43.20` was excluded due to separation on PC1 (99% var) fro
 
 ## Alternative Poly-Adenylation
 
+For REPAC, significance: |compositional Fold Change (cFC)| >= 0.25 AND a FDR corrected p-value < 0.05
+For APAlyzer, FDR-corrected p-value < 0.05
 ```R
-# REPAC
 Rscript scripts/REPAC.R
-
-# APAlyzer
-
-
-
+Rscript scripts/APAlyzer.R
+Rscript scripts/APA-plot-distributions.R
 ```

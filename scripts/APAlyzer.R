@@ -5,6 +5,7 @@ if (! require('APAlyzer'))      { BiocManager::install("APAlyzer"); library(APAl
 if (! require('repmis'))        { install.packages('repmis'); library(repmis) }
 if (! require('ggplot2'))        { install.packages('ggplot2'); library(ggplot2) }
 if (! require('ggthemes'))        { install.packages('ggthemes'); library(ggthemes) }
+if (! require('data.table'))        { install.packages('data.table'); library(data.table) }
 
 
 #2 Load Reference Genome, check if hg38 
@@ -20,7 +21,6 @@ dfLE <- PASREF$dfLE
 
 
 
-library(data.table)
 bam_dir <- 'RNA_alignment'
 
 # Create data frame of files
@@ -70,13 +70,17 @@ APA_3UTR <- APAdiff(sampleTable,
                     CUTreads=5)
 
 APA_3UTR <- as.data.table(APA_3UTR)
+
+p_threshold <- 0.05
+
 APA_3UTR[APAreg == 'DN', Significance := 'Whole cell']
 APA_3UTR[APAreg == 'UP', Significance := 'Neurite']
 APA_3UTR[APAreg == 'NC', Significance := 'NS']
-
-writeLines(as.character(unique(APA_3UTR$gene_symbol)), con='APA/APAlyzer_3utr_set.txt')
-writeLines(as.character(unique(APA_3UTR[Significance=='Neurite']$gene_symbol)), con='APA/APAlyzer_3utr_neurite.txt')
-writeLines(as.character(unique(APA_3UTR[Significance=='Whole cell']$gene_symbol)), con='APA/APAlyzer_3utr_soma.txt')
+APA_3UTR[p_adj >= p_threshold, Significance := 'NS']
+writeLines(as.character(unique(APA_3UTR$gene_symbol)), con='APA/APAlyzer-3UTR-set.txt')
+writeLines(as.character(unique(APA_3UTR[Significance=='Neurite']$gene_symbol)), con='APA/APAlyzer-3UTR-Neurite.txt')
+writeLines(as.character(unique(APA_3UTR[Significance=='Whole cell']$gene_symbol)), con='APA/APAlyzer-3UTR-Soma.txt')
+fwrite(APA_3UTR, file='APA/APAlyzer-3UTR.csv', quote=F, sep=',', row.names=F, col.names=T)
 
 source('scripts/colors.R')
 
@@ -85,7 +89,7 @@ g.3utr.volcano <- ggplot(data=APA_3UTR, aes(x=RED, y=-1*log10(p_adj), color=Sign
         scale_color_manual(values=c('NS'=not_signif_color, 'Whole cell'=soma_color,'Neurite'=neurite_color)) +
         labs(x='Relative Expression Delta (RED)', y='-log10(P)', title="APAlyzer Significantly Regulated 3'UTRs") +
         theme_few() +
-        geom_hline(yintercept=-1*log10(0.215), linetype='dashed', alpha=0.5)
+        geom_hline(yintercept=-1*log10(p_threshold), linetype='dashed', alpha=0.5)
 
 ggsave(g.3utr.volcano , file='APA/APAlyzeer-3UTR-volcano.png', width=15, height=15, units='cm')
 ggsave(g.3utr.volcano , file='APA/APAlyzeer-3UTR-volcano.pdf', width=15, height=15, units='cm')
@@ -110,18 +114,20 @@ APA_IPA <- as.data.table(APA_IPA)
 APA_IPA[APAreg == 'DN', Significance := 'Whole cell']
 APA_IPA[APAreg == 'UP', Significance := 'Neurite']
 APA_IPA[APAreg == 'NC', Significance := 'NS']
+APA_IPA[p_adj >= p_threshold, Significance := 'NS']
+APA_IPA[is.na(p_adj), p_adj := 1]
+fwrite(APA_IPA, file='APA/APAlyzer-IPA.csv', quote=F, sep=',', row.names=F, col.names=T)
 
-
-writeLines(as.character(unique(APA_IPA$gene_symbol)), con='APA/APAlyzer_ipa_set.txt')
-writeLines(as.character(unique(APA_IPA[Significance=='Neurite']$gene_symbol)), con='APA/APAlyzer_ipa_neurite.txt')
-writeLines(as.character(unique(APA_IPA[Significance=='Whole cell']$gene_symbol)), con='APA/APAlyzer_ipa_soma.txt')
+writeLines(as.character(unique(APA_IPA$gene_symbol)), con='APA/APAlyzer-IPA-set.txt')
+writeLines(as.character(unique(APA_IPA[Significance=='Neurite']$gene_symbol)), con='APA/APAlyzer-IPA-Neurite.txt')
+writeLines(as.character(unique(APA_IPA[Significance=='Whole cell']$gene_symbol)), con='APA/APAlyzer-IPA-Soma.txt')
 
 g.ipa.volcano <- ggplot(data=APA_IPA, aes(x=RED, y=-1*log10(p_adj), color=Significance)) + 
         geom_point() + 
         scale_color_manual(values=c('NS'=not_signif_color, 'Whole cell'=soma_color,'Neurite'=neurite_color)) +
         labs(x='Relative Expression Delta (RED)', y='-log10(P)', title="APAlyzer Significantly Regulated IPAs") +
         theme_few() +
-        geom_hline(yintercept=-1*log10(0.15), linetype='dashed', alpha=0.5)
+        geom_hline(yintercept=-1*log10(p_threshold), linetype='dashed', alpha=0.5)
 
 ggsave(g.ipa.volcano , file='APA/APAlyzeer-IPA-volcano.png', width=15, height=15, units='cm')
 ggsave(g.ipa.volcano , file='APA/APAlyzeer-IPA-volcano.pdf', width=15, height=15, units='cm')
