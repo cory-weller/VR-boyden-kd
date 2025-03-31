@@ -10,3 +10,7 @@ old/
 *knockdown.csv
 scripts/elizabeth
 RNA_DE/raw_counts.tsv
+TODO/
+*.RDS
+APA/*.csv
+APA/*.txt

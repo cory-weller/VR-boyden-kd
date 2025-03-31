@@ -6,41 +6,52 @@ if (! require('data.table'))        { install.packages('data.table'); library(da
 if (! require('cowplot'))        { install.packages('cowplot'); library(cowplot) }
 
 facet_order <- c(
-"APAlyzer 3'UTR Polyadenylation\nRelative Expression Difference",
-"APAlyzer Intron Polyadenylation\nRelative Expression Difference",
-'REPAC\nCompositional Fold Change'
+'REPAC\nTranscript length change',
+"APAlyzer\nTranscript length change",
+"APAlyzer\nIntron Polyadenylation"
 )
 
 # APAlyzer 3UTR
 dat1 <- fread('APA/APAlyzer-3UTR.csv')
 dat1 <- dat1[, .SD, .SDcols=c('gene_symbol','RED','p_adj','Significance')]
-dat1[, 'Measure' := facet_order[1]]
-setnames(dat1, c('site','Value','P','Significance', 'Measure'))
+dat1[, 'Measure' := facet_order[2]]
+dat1[, 'p_adj' := NULL]
+setnames(dat1, c('site','Value','Significance', 'Measure'))
+dat1[Significance == 'Shortened in Neurites', Significance := 'Decreased in Neurites']
+dat1[Significance == 'Lengthened in Neurites', Significance := 'Increased in Neurites']
 
 # APAlyzer IPA
 dat2 <- fread('APA/APAlyzer-IPA.csv')
 dat2 <- dat2[, .SD, .SDcols=c('PASid','RED','p_adj','Significance')]
-dat2[, 'Measure' := facet_order[2]]
-setnames(dat2, c('site','Value','P','Significance', 'Measure'))
-
+dat2[, 'Measure' := facet_order[3]]
+dat2[, p_adj := NULL]
+setnames(dat2, c('site','Value','Significance', 'Measure'))
+dat2[Significance == 'IPA activation in Neurites', Significance := 'Increased in Neurites']
+dat2[Significance == 'IPA suppression in Neurites', Significance := 'Decreased in Neurites']
 
 
 # REPAC
-dat3 <- fread('APA/REPAC-results.csv')
-dat3 <- dat3[, .SD, .SDcols=c('Site','cFC','p.adj','Significance')]
-dat3[, 'Measure' := facet_order[3]]
-setnames(dat3, c('site','Value','P','Significance', 'Measure'))
+dat3 <- fread('APA/REPAC-gene-level-significance.csv')
+setnames(dat3, 'gene_name', 'site')
+dat3 <- dat3[, .SD, .SDcols=c('site','cFC','Significance')]
+dat3[, 'Measure' := facet_order[1]]
+setnames(dat3, c('site','Value','Significance', 'Measure'))
 
-
+dat3[Significance == 'Shortened in Neurites', Significance := 'Decreased in Neurites']
+dat3[Significance == 'Lengthened in Neurites', Significance := 'Increased in Neurites']
 
 dat <- rbindlist(list(dat1, dat2, dat3))
-dat[, Significance := factor(Significance, levels=c('Whole cell','NS','Neurite'))]
-dat[, Measure := factor(Measure, levels=facet_order)]
+dat[, Measure := factor(Measure, levels=rev(facet_order))]
 
-g <- ggplot(data=dat, aes(x=Significance, y=Value)) +
-    facet_grid(~Measure) +
-    geom_boxplot() +
+dat[, Significance := factor(Significance, levels=rev(c('NS','Decreased in Neurites','Increased in Neurites')))]
+
+dat.ag <- dat[, .N, by=list(Significance, Measure)]
+
+g <- ggplot(data=dat.ag, aes(x=Measure, y=N, fill=Significance)) +
+    geom_bar(stat='identity', position='stack') +
     theme_few() +
-    geom_hline(yintercept=0, linetype='dashed', alpha=0.5)
+    labs(x='', y='Number of Genes') +
+    coord_flip()
 
-ggsave(g, file='APA/APA-boxplot-combined.png', width=24, height=16, units='cm')
+
+ggsave(g, file='APA/APA-stacked-bar.png', width=24, height=8, units='cm')
