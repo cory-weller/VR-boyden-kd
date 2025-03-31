@@ -1,6 +1,52 @@
 # VR-kolf-boyden-rna
 
 
+## rRNA interval list
+
+```bash
+
+wget https://gist.githubusercontent.com/slowkow/b11c28796508f03cdf4b/raw/38d337698ff1e6915578dfa08826c73631c3e0b5/make_rRNA.sh
+
+
+
+GTF='/fdb/STAR_current/GENCODE/Gencode_human/release_45/genes.gtf'
+
+gencode.v45.primary_assembly.annotation.gtf
+
+
+
+DICT='/fdb/STAR_current/GENCODE/Gencode_human/release_45/ref.dict'
+
+# Start with header, tab-separated
+awk -v OFS='\t' 'NR > 1 {print $1','$2','$3}' $DICT > rRNA_intervals.hg38.txt
+
+# Add rRNA transcripts to tmp file
+grep -F 'gene_type "rRNA"' ${GTF} | awk -v FS='\t' -v OFS='\t' '$3=="transcript" {print $1,$4,$5,$7,$9}' > tmp1.txt
+
+grep -F 'gene_type "rRNA_pseudogene"' ${GTF} | awk -v FS='\t' -v OFS='\t' '$3=="transcript" {print $1,$4,$5,$7,$9}' > tmp2.txt
+
+cat tmp1.txt tmp2.txt > tmp3.txt
+
+
+# Reformat and append to final output
+paste <(cut -f 1-4 tmp.txt) \
+<(cut -f 5 tmp.txt | sed -r 's/.*transcript_id "//g' | sed -r 's/"; .*$//g') > tmp4.txt
+
+module load bedtools
+bedtools sort -i tmp4.txt >> rRNA_intervals.hg38.txt
+
+
+rRNA_intervals.hg38.txt
+
+# Remove tmp files
+rm tmp{1,2,}.txt
+
+sbatch --array=1,3,5,6,10,13,16,17,19,23,24,25,28,31,33,36,40,41,43,48,49,57,59,62,72,76 scripts/multiqc.sh
+
+rnaseqc ${GTF} ${BAM} ${BAM}.rnaseqc
+
+python3 scripts/collapse_annotation.py gencode.v45.primary_assembly.annotation.gtf gencode.v45.genes.gtf
+```
 ## Preprocessing sequencing data
 Run UMI deduplication, mark optical duplicates, align and count features
 
