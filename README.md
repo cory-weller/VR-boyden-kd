@@ -41,7 +41,7 @@ rRNA_intervals.hg38.txt
 # Remove tmp files
 rm tmp{1,2,}.txt
 
-sbatch --array=1,3,5,6,10,13,16,17,19,23,24,25,28,31,33,36,40,41,43,48,49,57,59,62,72,76 scripts/multiqc.sh
+sbatch --array=1-7676 scripts/multiqc.sh
 
 rnaseqc ${GTF} ${BAM} ${BAM}.rnaseqc
 
