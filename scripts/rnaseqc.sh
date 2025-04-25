@@ -3,7 +3,6 @@
 #SBATCH --partition quick
 
 #module load samtools/1.21
-#REFFLAT='/vf/users/CARD_ARDIS/users/wellerca/VR-boyden-kd/refFlat.txt.gz'
 
 samplefile='samples.txt'
 N=${SLURM_ARRAY_TASK_ID}
