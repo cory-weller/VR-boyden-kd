@@ -1,0 +1,157 @@
+Experiment,rn,variable,value,plot_color
+TDP-43,Neurite KD 1,rRNA rate,0.0116595,#6c1760
+TDP-43,Neurite KD 2,rRNA rate,0.0176146,#6c1760
+TDP-43,Neurite KD 3,rRNA rate,0.0151492,#6c1760
+TDP-43,Neurite KD 4,rRNA rate,0.00983714,#6c1760
+TDP-43,Neurite KD 5,rRNA rate,0.0117853,#6c1760
+TDP-43,Whole cell KD 1,rRNA rate,0.00383064,#003f1e
+TDP-43,Whole cell KD 2,rRNA rate,0.00298642,#003f1e
+TDP-43,Whole cell KD 3,rRNA rate,0.00317094,#003f1e
+TDP-43,Whole cell KD 4,rRNA rate,0.00241809,#003f1e
+TDP-43,Whole cell KD 5,rRNA rate,0.0280338,#003f1e
+TDP-43,Neurite NT 1,rRNA rate,0.0101477,#6c1760
+TDP-43,Neurite NT 2,rRNA rate,0.0107185,#6c1760
+TDP-43,Neurite NT 4,rRNA rate,0.0144481,#6c1760
+TDP-43,Neurite NT 5,rRNA rate,0.012287,#6c1760
+TDP-43,Neurite NT 6,rRNA rate,0.011148,#6c1760
+TDP-43,Whole cell NT 6,rRNA rate,0.00333943,#003f1e
+TDP-43,Whole cell NT 1,rRNA rate,0.00377166,#003f1e
+TDP-43,Whole cell NT 2,rRNA rate,0.00387593,#003f1e
+TDP-43,Whole cell NT 4,rRNA rate,0.00288576,#003f1e
+TDP-43,Whole cell NT 5,rRNA rate,0.00317612,#003f1e
+WT,WT Neurite 4,rRNA rate,0.041536,#6c1760
+WT,WT Neurite 5,rRNA rate,0.0369663,#6c1760
+WT,WT Neurite 6,rRNA rate,0.0244899,#6c1760
+WT,WT Neurite 7,rRNA rate,0.0257887,#6c1760
+WT,WT Whole cell 4,rRNA rate,0.00345558,#003f1e
+WT,WT Whole cell 5,rRNA rate,0.00297537,#003f1e
+WT,WT Whole cell 6,rRNA rate,0.00383574,#003f1e
+WT,WT Whole cell 7,rRNA rate,0.00432427,#003f1e
+hnRNPA1,Neurite KD 1,rRNA rate,0.0244037,#6c1760
+hnRNPA1,Neurite KD 2,rRNA rate,0.0200248,#6c1760
+hnRNPA1,Neurite KD 3,rRNA rate,0.0190224,#6c1760
+hnRNPA1,Neurite KD 4,rRNA rate,0.0172021,#6c1760
+hnRNPA1,Neurite KD 5,rRNA rate,0.0219945,#6c1760
+hnRNPA1,Neurite KD 6,rRNA rate,0.0210006,#6c1760
+hnRNPA1,Whole cell KD 1,rRNA rate,0.00664828,#003f1e
+hnRNPA1,Whole cell KD 2,rRNA rate,0.00431179,#003f1e
+hnRNPA1,Whole cell KD 3,rRNA rate,0.00462544,#003f1e
+hnRNPA1,Whole cell KD 4,rRNA rate,0.00502605,#003f1e
+hnRNPA1,Whole cell KD 5,rRNA rate,0.00499683,#003f1e
+hnRNPA1,Whole cell KD 6,rRNA rate,0.00461795,#003f1e
+hnRNPA1,Neurite NT 1,rRNA rate,0.0105383,#6c1760
+hnRNPA1,Neurite NT 2,rRNA rate,0.014947,#6c1760
+hnRNPA1,Neurite NT 3,rRNA rate,0.00865432,#6c1760
+hnRNPA1,Neurite NT 4,rRNA rate,0.0169714,#6c1760
+hnRNPA1,Neurite NT 5,rRNA rate,0.0137454,#6c1760
+hnRNPA1,Neurite NT 6,rRNA rate,0.014703,#6c1760
+hnRNPA1,Whole cell NT 4,rRNA rate,0.00352687,#003f1e
+hnRNPA1,Whole cell NT 5,rRNA rate,0.00313986,#003f1e
+hnRNPA1,Whole cell NT 6,rRNA rate,0.00384731,#003f1e
+hnRNPA1,Whole cell NT 1,rRNA rate,0.0058445,#003f1e
+hnRNPA1,Whole cell NT 2,rRNA rate,0.00428132,#003f1e
+hnRNPA1,Whole cell NT 3,rRNA rate,0.00275807,#003f1e
+TDP-43,Neurite KD 1,Expression Profiling Efficiency,0.609215,#d63cc0
+TDP-43,Neurite KD 2,Expression Profiling Efficiency,0.606969,#d63cc0
+TDP-43,Neurite KD 3,Expression Profiling Efficiency,0.629555,#d63cc0
+TDP-43,Neurite KD 4,Expression Profiling Efficiency,0.635311,#d63cc0
+TDP-43,Neurite KD 5,Expression Profiling Efficiency,0.627873,#d63cc0
+TDP-43,Whole cell KD 1,Expression Profiling Efficiency,0.500211,#00a347
+TDP-43,Whole cell KD 2,Expression Profiling Efficiency,0.504738,#00a347
+TDP-43,Whole cell KD 3,Expression Profiling Efficiency,0.505905,#00a347
+TDP-43,Whole cell KD 4,Expression Profiling Efficiency,0.507867,#00a347
+TDP-43,Whole cell KD 5,Expression Profiling Efficiency,0.392473,#00a347
+TDP-43,Neurite NT 1,Expression Profiling Efficiency,0.568762,#d63cc0
+TDP-43,Neurite NT 2,Expression Profiling Efficiency,0.555178,#d63cc0
+TDP-43,Neurite NT 4,Expression Profiling Efficiency,0.554377,#d63cc0
+TDP-43,Neurite NT 5,Expression Profiling Efficiency,0.551093,#d63cc0
+TDP-43,Neurite NT 6,Expression Profiling Efficiency,0.541911,#d63cc0
+TDP-43,Whole cell NT 6,Expression Profiling Efficiency,0.515314,#00a347
+TDP-43,Whole cell NT 1,Expression Profiling Efficiency,0.519117,#00a347
+TDP-43,Whole cell NT 2,Expression Profiling Efficiency,0.559925,#00a347
+TDP-43,Whole cell NT 4,Expression Profiling Efficiency,0.516547,#00a347
+TDP-43,Whole cell NT 5,Expression Profiling Efficiency,0.532527,#00a347
+WT,WT Neurite 4,Expression Profiling Efficiency,0.61466,#d63cc0
+WT,WT Neurite 5,Expression Profiling Efficiency,0.592808,#d63cc0
+WT,WT Neurite 6,Expression Profiling Efficiency,0.551732,#d63cc0
+WT,WT Neurite 7,Expression Profiling Efficiency,0.56273,#d63cc0
+WT,WT Whole cell 4,Expression Profiling Efficiency,0.300344,#00a347
+WT,WT Whole cell 5,Expression Profiling Efficiency,0.229063,#00a347
+WT,WT Whole cell 6,Expression Profiling Efficiency,0.325663,#00a347
+WT,WT Whole cell 7,Expression Profiling Efficiency,0.25442,#00a347
+hnRNPA1,Neurite KD 1,Expression Profiling Efficiency,0.611002,#d63cc0
+hnRNPA1,Neurite KD 2,Expression Profiling Efficiency,0.629104,#d63cc0
+hnRNPA1,Neurite KD 3,Expression Profiling Efficiency,0.623511,#d63cc0
+hnRNPA1,Neurite KD 4,Expression Profiling Efficiency,0.632773,#d63cc0
+hnRNPA1,Neurite KD 5,Expression Profiling Efficiency,0.601116,#d63cc0
+hnRNPA1,Neurite KD 6,Expression Profiling Efficiency,0.593754,#d63cc0
+hnRNPA1,Whole cell KD 1,Expression Profiling Efficiency,0.560285,#00a347
+hnRNPA1,Whole cell KD 2,Expression Profiling Efficiency,0.58355,#00a347
+hnRNPA1,Whole cell KD 3,Expression Profiling Efficiency,0.466614,#00a347
+hnRNPA1,Whole cell KD 4,Expression Profiling Efficiency,0.580789,#00a347
+hnRNPA1,Whole cell KD 5,Expression Profiling Efficiency,0.537293,#00a347
+hnRNPA1,Whole cell KD 6,Expression Profiling Efficiency,0.532376,#00a347
+hnRNPA1,Neurite NT 1,Expression Profiling Efficiency,0.608826,#d63cc0
+hnRNPA1,Neurite NT 2,Expression Profiling Efficiency,0.645136,#d63cc0
+hnRNPA1,Neurite NT 3,Expression Profiling Efficiency,0.604221,#d63cc0
+hnRNPA1,Neurite NT 4,Expression Profiling Efficiency,0.634952,#d63cc0
+hnRNPA1,Neurite NT 5,Expression Profiling Efficiency,0.62674,#d63cc0
+hnRNPA1,Neurite NT 6,Expression Profiling Efficiency,0.617162,#d63cc0
+hnRNPA1,Whole cell NT 4,Expression Profiling Efficiency,0.52509,#00a347
+hnRNPA1,Whole cell NT 5,Expression Profiling Efficiency,0.525576,#00a347
+hnRNPA1,Whole cell NT 6,Expression Profiling Efficiency,0.607201,#00a347
+hnRNPA1,Whole cell NT 1,Expression Profiling Efficiency,0.596667,#00a347
+hnRNPA1,Whole cell NT 2,Expression Profiling Efficiency,0.542668,#00a347
+hnRNPA1,Whole cell NT 3,Expression Profiling Efficiency,0.530106,#00a347
+TDP-43,Neurite KD 1,Genes Detected,23348,#d63cc0
+TDP-43,Neurite KD 2,Genes Detected,18738,#d63cc0
+TDP-43,Neurite KD 3,Genes Detected,19706,#d63cc0
+TDP-43,Neurite KD 4,Genes Detected,23848,#d63cc0
+TDP-43,Neurite KD 5,Genes Detected,23977,#d63cc0
+TDP-43,Whole cell KD 1,Genes Detected,25234,#00a347
+TDP-43,Whole cell KD 2,Genes Detected,25840,#00a347
+TDP-43,Whole cell KD 3,Genes Detected,25733,#00a347
+TDP-43,Whole cell KD 4,Genes Detected,28027,#00a347
+TDP-43,Whole cell KD 5,Genes Detected,7,#00a347
+TDP-43,Neurite NT 1,Genes Detected,23514,#d63cc0
+TDP-43,Neurite NT 2,Genes Detected,22673,#d63cc0
+TDP-43,Neurite NT 4,Genes Detected,19857,#d63cc0
+TDP-43,Neurite NT 5,Genes Detected,20834,#d63cc0
+TDP-43,Neurite NT 6,Genes Detected,22539,#d63cc0
+TDP-43,Whole cell NT 6,Genes Detected,25855,#00a347
+TDP-43,Whole cell NT 1,Genes Detected,26065,#00a347
+TDP-43,Whole cell NT 2,Genes Detected,23967,#00a347
+TDP-43,Whole cell NT 4,Genes Detected,24877,#00a347
+TDP-43,Whole cell NT 5,Genes Detected,26186,#00a347
+WT,WT Neurite 4,Genes Detected,14988,#d63cc0
+WT,WT Neurite 5,Genes Detected,15057,#d63cc0
+WT,WT Neurite 6,Genes Detected,20071,#d63cc0
+WT,WT Neurite 7,Genes Detected,18489,#d63cc0
+WT,WT Whole cell 4,Genes Detected,36064,#00a347
+WT,WT Whole cell 5,Genes Detected,38411,#00a347
+WT,WT Whole cell 6,Genes Detected,35050,#00a347
+WT,WT Whole cell 7,Genes Detected,33046,#00a347
+hnRNPA1,Neurite KD 1,Genes Detected,19520,#d63cc0
+hnRNPA1,Neurite KD 2,Genes Detected,20101,#d63cc0
+hnRNPA1,Neurite KD 3,Genes Detected,21104,#d63cc0
+hnRNPA1,Neurite KD 4,Genes Detected,19487,#d63cc0
+hnRNPA1,Neurite KD 5,Genes Detected,19127,#d63cc0
+hnRNPA1,Neurite KD 6,Genes Detected,20346,#d63cc0
+hnRNPA1,Whole cell KD 1,Genes Detected,21788,#00a347
+hnRNPA1,Whole cell KD 2,Genes Detected,26668,#00a347
+hnRNPA1,Whole cell KD 3,Genes Detected,28664,#00a347
+hnRNPA1,Whole cell KD 4,Genes Detected,23715,#00a347
+hnRNPA1,Whole cell KD 5,Genes Detected,24311,#00a347
+hnRNPA1,Whole cell KD 6,Genes Detected,24490,#00a347
+hnRNPA1,Neurite NT 1,Genes Detected,24623,#d63cc0
+hnRNPA1,Neurite NT 2,Genes Detected,21834,#d63cc0
+hnRNPA1,Neurite NT 3,Genes Detected,24158,#d63cc0
+hnRNPA1,Neurite NT 4,Genes Detected,20724,#d63cc0
+hnRNPA1,Neurite NT 5,Genes Detected,22726,#d63cc0
+hnRNPA1,Neurite NT 6,Genes Detected,21893,#d63cc0
+hnRNPA1,Whole cell NT 4,Genes Detected,24163,#00a347
+hnRNPA1,Whole cell NT 5,Genes Detected,28574,#00a347
+hnRNPA1,Whole cell NT 6,Genes Detected,24308,#00a347
+hnRNPA1,Whole cell NT 1,Genes Detected,22066,#00a347
+hnRNPA1,Whole cell NT 2,Genes Detected,24599,#00a347
+hnRNPA1,Whole cell NT 3,Genes Detected,26662,#00a347

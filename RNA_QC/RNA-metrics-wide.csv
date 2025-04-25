@@ -1,0 +1,53 @@
+Sample,Experiment,Fraction,Contrast,Replicate,Genes Detected,rRNA rate,Expression Profiling Efficiency,rn
+TDP43.11,TDP-43,Neurite,knockdown,1,23348,0.0116595,0.609215,Neurite KD 1
+TDP43.12,TDP-43,Neurite,knockdown,2,18738,0.0176146,0.606969,Neurite KD 2
+TDP43.13,TDP-43,Neurite,knockdown,3,19706,0.0151492,0.629555,Neurite KD 3
+TDP43.14,TDP-43,Neurite,knockdown,4,23848,0.00983714,0.635311,Neurite KD 4
+TDP43.15,TDP-43,Neurite,knockdown,5,23977,0.0117853,0.627873,Neurite KD 5
+TDP43.16,TDP-43,Soma,knockdown,1,25234,0.00383064,0.500211,Whole cell KD 1
+TDP43.17,TDP-43,Soma,knockdown,2,25840,0.00298642,0.504738,Whole cell KD 2
+TDP43.18,TDP-43,Soma,knockdown,3,25733,0.00317094,0.505905,Whole cell KD 3
+TDP43.19,TDP-43,Soma,knockdown,4,28027,0.00241809,0.507867,Whole cell KD 4
+TDP43.20,TDP-43,Soma,knockdown,5,7,0.0280338,0.392473,Whole cell KD 5
+TDP43.1,TDP-43,Neurite,nt_control,1,23514,0.0101477,0.568762,Neurite NT 1
+TDP43.2,TDP-43,Neurite,nt_control,2,22673,0.0107185,0.555178,Neurite NT 2
+TDP43.3,TDP-43,Neurite,nt_control,4,19857,0.0144481,0.554377,Neurite NT 4
+TDP43.4,TDP-43,Neurite,nt_control,5,20834,0.012287,0.551093,Neurite NT 5
+TDP43.5,TDP-43,Neurite,nt_control,6,22539,0.011148,0.541911,Neurite NT 6
+TDP43.10,TDP-43,Soma,nt_control,6,25855,0.00333943,0.515314,Whole cell NT 6
+TDP43.6,TDP-43,Soma,nt_control,1,26065,0.00377166,0.519117,Whole cell NT 1
+TDP43.7,TDP-43,Soma,nt_control,2,23967,0.00387593,0.559925,Whole cell NT 2
+TDP43.8,TDP-43,Soma,nt_control,4,24877,0.00288576,0.516547,Whole cell NT 4
+TDP43.9,TDP-43,Soma,nt_control,5,26186,0.00317612,0.532527,Whole cell NT 5
+neurite.4,WT,Neurite,Neurite,4,14988,0.041536,0.61466,WT Neurite 4
+neurite.5,WT,Neurite,Neurite,5,15057,0.0369663,0.592808,WT Neurite 5
+neurite.6,WT,Neurite,Neurite,6,20071,0.0244899,0.551732,WT Neurite 6
+neurite.7,WT,Neurite,Neurite,7,18489,0.0257887,0.56273,WT Neurite 7
+soma.4,WT,Soma,Soma,4,36064,0.00345558,0.300344,WT Whole cell 4
+soma.5,WT,Soma,Soma,5,38411,0.00297537,0.229063,WT Whole cell 5
+soma.6,WT,Soma,Soma,6,35050,0.00383574,0.325663,WT Whole cell 6
+soma.7,WT,Soma,Soma,7,33046,0.00432427,0.25442,WT Whole cell 7
+hnRNPA1.13,hnRNPA1,Neurite,knockdown,1,19520,0.0244037,0.611002,Neurite KD 1
+hnRNPA1.14,hnRNPA1,Neurite,knockdown,2,20101,0.0200248,0.629104,Neurite KD 2
+hnRNPA1.15,hnRNPA1,Neurite,knockdown,3,21104,0.0190224,0.623511,Neurite KD 3
+hnRNPA1.16,hnRNPA1,Neurite,knockdown,4,19487,0.0172021,0.632773,Neurite KD 4
+hnRNPA1.17,hnRNPA1,Neurite,knockdown,5,19127,0.0219945,0.601116,Neurite KD 5
+hnRNPA1.18,hnRNPA1,Neurite,knockdown,6,20346,0.0210006,0.593754,Neurite KD 6
+hnRNPA1.19,hnRNPA1,Soma,knockdown,1,21788,0.00664828,0.560285,Whole cell KD 1
+hnRNPA1.20,hnRNPA1,Soma,knockdown,2,26668,0.00431179,0.58355,Whole cell KD 2
+hnRNPA1.21,hnRNPA1,Soma,knockdown,3,28664,0.00462544,0.466614,Whole cell KD 3
+hnRNPA1.22,hnRNPA1,Soma,knockdown,4,23715,0.00502605,0.580789,Whole cell KD 4
+hnRNPA1.23,hnRNPA1,Soma,knockdown,5,24311,0.00499683,0.537293,Whole cell KD 5
+hnRNPA1.24,hnRNPA1,Soma,knockdown,6,24490,0.00461795,0.532376,Whole cell KD 6
+hnRNPA1.1,hnRNPA1,Neurite,nt_control,1,24623,0.0105383,0.608826,Neurite NT 1
+hnRNPA1.2,hnRNPA1,Neurite,nt_control,2,21834,0.014947,0.645136,Neurite NT 2
+hnRNPA1.3,hnRNPA1,Neurite,nt_control,3,24158,0.00865432,0.604221,Neurite NT 3
+hnRNPA1.4,hnRNPA1,Neurite,nt_control,4,20724,0.0169714,0.634952,Neurite NT 4
+hnRNPA1.5,hnRNPA1,Neurite,nt_control,5,22726,0.0137454,0.62674,Neurite NT 5
+hnRNPA1.6,hnRNPA1,Neurite,nt_control,6,21893,0.014703,0.617162,Neurite NT 6
+hnRNPA1.10,hnRNPA1,Soma,nt_control,4,24163,0.00352687,0.52509,Whole cell NT 4
+hnRNPA1.11,hnRNPA1,Soma,nt_control,5,28574,0.00313986,0.525576,Whole cell NT 5
+hnRNPA1.12,hnRNPA1,Soma,nt_control,6,24308,0.00384731,0.607201,Whole cell NT 6
+hnRNPA1.7,hnRNPA1,Soma,nt_control,1,22066,0.0058445,0.596667,Whole cell NT 1
+hnRNPA1.8,hnRNPA1,Soma,nt_control,2,24599,0.00428132,0.542668,Whole cell NT 2
+hnRNPA1.9,hnRNPA1,Soma,nt_control,3,26662,0.00275807,0.530106,Whole cell NT 3
